@@ -46,24 +46,19 @@ func processor(w http.ResponseWriter, r *http.Request) {
 }
 
 func passGen(lenght int, difficulty int) string {
+	var letters []rune
 	switch difficulty {
 	case 1:
-		var letters = []rune(difficultyEasy)
-		b := make([]rune, lenght)
-
-		for i := range b {
-			b[i] = letters[rand.Intn(len(letters))]
-		}
-		return string(b)
+		letters = []rune(difficultyEasy)
 	case 2:
-		var letters = []rune(difficultyHard)
-		b := make([]rune, lenght)
-
-		for i := range b {
-			b[i] = letters[rand.Intn(len(letters))]
-		}
-		return string(b)
+		letters = []rune(difficultyHard)
 	default:
-		return string("This difficulty does not exist")
+		letters = []rune(difficultyEasy)
 	}
+	b := make([]rune, lenght)
+
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
