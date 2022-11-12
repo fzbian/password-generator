@@ -1,64 +1,32 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"math/rand"
 	"net/http"
+	passGenerator "password-generator-api/functions"
 	"strconv"
-)
 
-const (
-	port = ":3000"
-)
-
-var (
-	difficultyEasy = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	difficultyHard = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$^&*()[]'';{}"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/api", processor)
-	fmt.Println("Server started on port " + port)
-	http.ListenAndServe(port, nil)
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Ok.")
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Ok!")
+	})
+	e.GET("/api", processor)
+	e.Logger.Fatal(e.Start(":3000"))
 }
 
 type Body struct {
-	Lenght     int
-	Difficulty int
+	Message string `json:"message" xml:"message"`
 }
 
-func processor(w http.ResponseWriter, r *http.Request) {
-	body := r.URL.Query()
-	x, _ := strconv.Atoi(body.Get("lenght"))
-	a, _ := strconv.Atoi(body.Get("difficulty"))
-	w.Header().Set("Content-Type", "application/json")
-	resp := make(map[string]string)
-	resp["password"] = passGen(x, a)
-	jsonResponse, _ := json.Marshal(resp)
-	w.Write(jsonResponse)
-	return
-}
-
-func passGen(lenght int, difficulty int) string {
-	var letters []rune
-	switch difficulty {
-	case 1:
-		letters = []rune(difficultyEasy)
-	case 2:
-		letters = []rune(difficultyHard)
-	default:
-		letters = []rune(difficultyEasy)
+func processor(c echo.Context) error {
+	lenght, _ := strconv.Atoi(c.QueryParam("lenght"))
+	difficulty, _ := strconv.Atoi(c.QueryParam("difficulty"))
+	newPass := passGenerator.PassGen(lenght, difficulty)
+	p := &Body{
+		Message: newPass,
 	}
-	b := make([]rune, lenght)
-
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
+	return c.JSON(http.StatusOK, p)
 }

@@ -1,5 +1,5 @@
 # Password Generator
-This API has been created for the sole purpose of learning how Go works with HTTP.
+This API has been created for the sole purpose of learning how Go works with echo framework.
 
 ## How to use
 
