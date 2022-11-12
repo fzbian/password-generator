@@ -15,7 +15,7 @@ Practical example
 
 Input
 
-`localhost:3000/api?lenght=15&difficulty=2`
+`https://password-generator-api.fzbian.repl.co/api?lenght=15&difficulty=2`
 
 Output
 
