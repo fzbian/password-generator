@@ -1,6 +1,9 @@
 package passGenerator
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 var (
 	difficultyEasy = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -8,6 +11,7 @@ var (
 )
 
 func PassGen(lenght int, difficulty int) string {
+	rand.Seed(time.Now().UnixNano())
 	var letters []rune
 	switch difficulty {
 	case 1:
