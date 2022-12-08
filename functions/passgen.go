@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	difficultyEasy = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	difficultyHard = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$^&*()[]'';{}"
+	difficultyEasy = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	difficultyHard = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$^&*"
 )
 
 func PassGen(lenght int, difficulty int) string {
