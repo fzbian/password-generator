@@ -7,7 +7,8 @@ import (
 
 func main() {
 	e := echo.New()
-	e.GET("/", routes.Health)
+	e.Static("/", "views")
+	e.GET("/health", routes.Health)
 	e.GET("/gen", routes.Generate)
 	e.Logger.Fatal(e.Start(":3000"))
 }

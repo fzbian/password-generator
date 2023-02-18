@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Generator</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Helvetica Neue", sans-serif;
+            background-color: #161616;
+            color: #FFFFFF;
+        }
+        div {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="number"] {
+            width: 50px;
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            color: #161616;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            color: #161616;
+            cursor: pointer;
+        }
+        p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label for="length">Password length:</label>
+    <input type="number" id="length" name="length" min="1" max="100" required>
+    <button id="generate">Generate</button>
+    <p id="response"></p>
+</div>
+<script>
+    document.getElementById("generate").addEventListener("click", () => {
+        const length = document.getElementById("length").value;
+        fetch(`http://localhost:3000/gen?length=${length}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.password) {
+                    document.getElementById("response").textContent = `Password generated: ${data.password}`;
+                } else if (data.error) {
+                    document.getElementById("response").textContent = data.error;
+                } else {
+                    document.getElementById("response").textContent = "Unknown error.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById("response").textContent = "Network error.";
+            });
+    });
+</script>
+</body>
+</html>
